@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="{{ config.theme.locale.language }}">
+
+<head>
+  <title>{% if page.title %}{{ page.title }} - {% endif %}{{ config.site_name }}</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <meta name="msapplication-TileColor" content="#603cba" />
+  <meta name="theme-color" content="#25222a" />
+  <link rel="stylesheet" href="{{ 'css/main.css' | url }}" />
+  {% if config.theme.fit_to_height %}
+  <link rel="stylesheet" href="{{ 'css/main-stretch.css' | url }}" />
+  {% else %}
+  <link rel="stylesheet" href="{{ 'css/main-center.css' | url }}" />
+  {% endif %}
+
+  {%- for path in config.extra_css %}
+  <link href="{{ path | url }}" rel="stylesheet">
+  {%- endfor %}
+  
+  {%- for script in config.extra_javascript %}
+    {%- if script.path %}  {# Detected MkDocs 1.5+ which has `script.path` and `script_tag` #}
+      {{ script | script_tag }}
+    {%- else %}  {# Fallback - examine the file name directly #}
+      <script src="{{ script | url }}"{% if script.endswith(".mjs") %} type="module"{% endif %}></script>
+    {%- endif %}
+  {%- endfor %}
+</head>
+<body>
+  <div class="wrap">
+    {% if nav|length > 1 %}
+      <ul class="nav">
+        <li class="nav">
+          <a href="{% if config.site_url %}{{ config.site_url }}{% else %}/{% endif %}">{{ config.site_name }}</a>
+        </li>
+        {% for nav_item in nav %}
+          {% if nav_item.children %}
+            <li class="nav nav-item">{{ nav_item.title }}</li>
+          {% else %}
+            <li class="{% if nav_item.active %}nav-item-current{% endif %} nav nav-item">
+              <a href="{{ nav_item.url|url }}">{{ nav_item.title }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {{ page.content }}
+  </div>
+</body>
+
+</html>
