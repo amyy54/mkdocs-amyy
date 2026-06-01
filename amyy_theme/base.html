@@ -19,11 +19,14 @@
   {% else %}
   <link rel="stylesheet" href="{{ 'css/main-center.css' | url }}" />
   {% endif %}
+  {% if page.meta.standard_site %}
+  <link rel="site.standard.document" href="{{ page.meta.standard_site }}">
+  {% endif %}
 
   {%- for path in config.extra_css %}
   <link href="{{ path | url }}" rel="stylesheet">
   {%- endfor %}
-  
+
   {%- for script in config.extra_javascript %}
     {%- if script.path %}  {# Detected MkDocs 1.5+ which has `script.path` and `script_tag` #}
       {{ script | script_tag }}
