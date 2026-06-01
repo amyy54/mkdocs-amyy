@@ -22,6 +22,17 @@
   {% if page.meta.standard_site %}
   <link rel="site.standard.document" href="{{ page.meta.standard_site }}">
   {% endif %}
+  {% if page.meta.publish_date %}
+  <style>
+    h1::after {
+      content: "Published {{ page.meta.publish_date }}";
+      display: block;
+      font-size: 1rem;
+      font-weight: 400;
+      font-style: italic;
+    }
+  </style>
+  {% endif %}
 
   {%- for path in config.extra_css %}
   <link href="{{ path | url }}" rel="stylesheet">
