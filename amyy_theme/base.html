@@ -2,7 +2,7 @@
 <html lang="{{ config.theme.locale.language }}">
 
 <head>
-  <title>{% if page.title %}{{ page.title }} - {% endif %}{{ config.site_name }}</title>
+  <title>{% if page.title and config.site_name not in page.title %}{{ page.title }} - {% endif %}{{ config.site_name }}</title>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,11 +13,14 @@
   <link rel="shortcut icon" href="/favicon.ico" />
   <meta name="msapplication-TileColor" content="#603cba" />
   <meta name="theme-color" content="#25222a" />
-  <link rel="stylesheet" href="{{ 'css/main.css' | url }}" />
-  {% if config.theme.fit_to_height %}
-  <link rel="stylesheet" href="{{ 'css/main-stretch.css' | url }}" />
+  {% if page.meta.quotes_js %}
+  <script src="{{ config.theme.js_location }}/quotes.js"></script>
+  {% endif %}
+  <link rel="stylesheet" href="{{ config.theme.css_location }}/main.css" />
+  {% if page.meta.center_box or not config.theme.fit_to_height %}
+  <link rel="stylesheet" href="{{ config.theme.css_location }}/main-center.css" />
   {% else %}
-  <link rel="stylesheet" href="{{ 'css/main-center.css' | url }}" />
+  <link rel="stylesheet" href="{{ config.theme.css_location }}/main-stretch.css" />
   {% endif %}
   {% if page.meta.standard_site %}
   <link rel="site.standard.document" href="{{ page.meta.standard_site }}">
@@ -51,7 +54,7 @@
     {% if nav|length > 1 %}
       <ul class="nav">
         <li class="nav">
-          <a href="{% if config.site_url %}{{ config.site_url }}{% else %}/{% endif %}">{{ config.site_name }}</a>
+          <a href="{% if config.site_url %}{{ config.site_url }}{% else %}/{% endif %}">Home</a>
         </li>
         {% for nav_item in nav %}
           {% if nav_item.children %}
